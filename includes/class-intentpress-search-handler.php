@@ -260,7 +260,7 @@ class IntentPress_Search_Handler {
 		$result = array(
 			'id'         => $post->ID,
 			'title'      => get_the_title( $post ),
-			'excerpt'    => get_the_excerpt( $post ),
+			'excerpt'    => $this->create_excerpt( $post ),
 			'url'        => get_permalink( $post ),
 			'post_type'  => $post->post_type,
 			'date'       => get_the_date( 'c', $post ),
@@ -289,6 +289,49 @@ class IntentPress_Search_Handler {
 		 * @param float   $similarity Similarity score.
 		 */
 		return apply_filters( 'intentpress_search_result_item', $result, $post, $similarity );
+	}
+
+	/**
+	 * Create a custom excerpt for search results.
+	 *
+	 * Similar to Relevanssi, creates a truncated excerpt from post content.
+	 * Uses the post excerpt if available, otherwise truncates content.
+	 *
+	 * @param WP_Post $post       The post object.
+	 * @param int     $word_limit Maximum number of words (default 40).
+	 * @return string The excerpt.
+	 */
+	private function create_excerpt( WP_Post $post, int $word_limit = 40 ): string {
+		// Use manual excerpt if it exists and is not empty.
+		if ( ! empty( $post->post_excerpt ) ) {
+			$excerpt = $post->post_excerpt;
+		} else {
+			// Get content and strip shortcodes, HTML.
+			$content = $post->post_content;
+			$content = strip_shortcodes( $content );
+			$content = wp_strip_all_tags( $content );
+			$content = str_replace( array( "\r\n", "\r", "\n", "\t" ), ' ', $content );
+			$content = preg_replace( '/\s+/', ' ', $content );
+			$excerpt = trim( $content );
+		}
+
+		// Truncate to word limit.
+		$words = explode( ' ', $excerpt );
+
+		if ( count( $words ) > $word_limit ) {
+			$excerpt = implode( ' ', array_slice( $words, 0, $word_limit ) ) . '…';
+		}
+
+		/**
+		 * Filter the search result excerpt.
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param string  $excerpt    The excerpt.
+		 * @param WP_Post $post       Post object.
+		 * @param int     $word_limit Word limit.
+		 */
+		return apply_filters( 'intentpress_search_excerpt', $excerpt, $post, $word_limit );
 	}
 
 	/**

@@ -247,10 +247,13 @@ class IntentPress_Search_Integration {
 
 		// Determine form action URL.
 		if ( 'self' === $atts['action'] ) {
-			// Stay on current page - use current URL without query string.
-			$form_action = strtok( esc_url( add_query_arg( array() ) ), '?' );
-			if ( empty( $form_action ) ) {
-				$form_action = get_permalink();
+			// Stay on current page.
+			global $post;
+			if ( $post instanceof WP_Post ) {
+				$form_action = get_permalink( $post->ID );
+			} else {
+				// Fallback: parse current URL without query string.
+				$form_action = home_url( wp_parse_url( $_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH ) ?: '/' );
 			}
 		} elseif ( 'search' === $atts['action'] ) {
 			// Go to WordPress search page.
