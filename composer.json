@@ -1,6 +1,6 @@
 {
 	"name": "intentpress/intentpress",
-	"version": "0.2.0",
+	"version": "0.2.2",
 	"description": "AI-powered semantic search plugin for WordPress",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",

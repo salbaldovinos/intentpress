@@ -11,7 +11,7 @@
  * Plugin Name:       IntentPress
  * Plugin URI:        https://intentpress.com
  * Description:       Replace WordPress's keyword-based search with AI-powered semantic search using OpenAI embeddings.
- * Version:           0.2.0
+ * Version:           0.2.2
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            IntentPress
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var string
  */
-define( 'INTENTPRESS_VERSION', '0.2.0' );
+define( 'INTENTPRESS_VERSION', '0.2.2' );
 
 /**
  * Plugin file path.
