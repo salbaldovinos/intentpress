@@ -25,6 +25,7 @@ export interface Settings {
 	per_page: number;
 	similarity_threshold: number;
 	fallback_enabled: boolean;
+	replace_search: boolean;
 	cache_ttl: number;
 	max_results: number;
 }

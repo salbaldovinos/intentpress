@@ -306,6 +306,7 @@ class IntentPress_REST_API {
 			'per_page'             => (int) get_option( 'intentpress_per_page', 10 ),
 			'similarity_threshold' => (float) get_option( 'intentpress_similarity_threshold', 0.5 ),
 			'fallback_enabled'     => (bool) get_option( 'intentpress_fallback_enabled', true ),
+			'replace_search'       => (bool) get_option( 'intentpress_replace_search', true ),
 			'cache_ttl'            => (int) get_option( 'intentpress_cache_ttl', 3600 ),
 			'max_results'          => (int) get_option( 'intentpress_max_results', 100 ),
 		);
@@ -358,6 +359,7 @@ class IntentPress_REST_API {
 			'per_page'             => 'intentpress_per_page',
 			'similarity_threshold' => 'intentpress_similarity_threshold',
 			'fallback_enabled'     => 'intentpress_fallback_enabled',
+			'replace_search'       => 'intentpress_replace_search',
 			'cache_ttl'            => 'intentpress_cache_ttl',
 			'max_results'          => 'intentpress_max_results',
 		);
@@ -877,6 +879,9 @@ class IntentPress_REST_API {
 				'maximum' => 1,
 			),
 			'fallback_enabled'     => array(
+				'type' => 'boolean',
+			),
+			'replace_search'       => array(
 				'type' => 'boolean',
 			),
 			'cache_ttl'            => array(

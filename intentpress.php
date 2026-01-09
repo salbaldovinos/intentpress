@@ -11,7 +11,7 @@
  * Plugin Name:       IntentPress
  * Plugin URI:        https://intentpress.com
  * Description:       Replace WordPress's keyword-based search with AI-powered semantic search using OpenAI embeddings.
- * Version:           0.1.2
+ * Version:           0.2.0
  * Requires at least: 6.4
  * Requires PHP:      8.0
  * Author:            IntentPress
@@ -32,7 +32,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @var string
  */
-define( 'INTENTPRESS_VERSION', '0.1.2' );
+define( 'INTENTPRESS_VERSION', '0.2.0' );
 
 /**
  * Plugin file path.
@@ -112,6 +112,13 @@ final class IntentPress {
 	private ?IntentPress_Vector_Store $vector_store = null;
 
 	/**
+	 * Search integration instance.
+	 *
+	 * @var IntentPress_Search_Integration|null
+	 */
+	private ?IntentPress_Search_Integration $search_integration = null;
+
+	/**
 	 * Get plugin instance.
 	 *
 	 * @return IntentPress Plugin instance.
@@ -143,6 +150,7 @@ final class IntentPress {
 		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-vector-store.php';
 		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-embedding-service.php';
 		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-search-handler.php';
+		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-search-integration.php';
 		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-rest-api.php';
 		require_once INTENTPRESS_PLUGIN_DIR . 'includes/class-intentpress-admin.php';
 	}
@@ -215,6 +223,12 @@ final class IntentPress {
 		// Initialize search handler.
 		$this->get_search_handler()->init();
 
+		// Initialize search integration (hooks into WordPress search).
+		$this->get_search_integration()->init();
+
+		// Enqueue frontend styles.
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_frontend_styles' ) );
+
 		// Initialize admin if in admin context.
 		if ( is_admin() ) {
 			$admin = new IntentPress_Admin(
@@ -223,6 +237,20 @@ final class IntentPress {
 			);
 			$admin->init();
 		}
+	}
+
+	/**
+	 * Enqueue frontend styles for shortcodes and widgets.
+	 *
+	 * @return void
+	 */
+	public function enqueue_frontend_styles(): void {
+		wp_enqueue_style(
+			'intentpress-frontend',
+			INTENTPRESS_PLUGIN_URL . 'assets/css/intentpress-frontend.css',
+			array(),
+			INTENTPRESS_VERSION
+		);
 	}
 
 	/**
@@ -295,6 +323,25 @@ final class IntentPress {
 		}
 
 		return $this->vector_store;
+	}
+
+	/**
+	 * Get search integration instance.
+	 *
+	 * @return IntentPress_Search_Integration Search integration instance.
+	 */
+	public function get_search_integration(): IntentPress_Search_Integration {
+		global $intentpress_search_integration;
+
+		if ( null === $this->search_integration ) {
+			$this->search_integration = new IntentPress_Search_Integration(
+				$this->get_search_handler()
+			);
+			// Set global for template tags.
+			$intentpress_search_integration = $this->search_integration;
+		}
+
+		return $this->search_integration;
 	}
 }
 

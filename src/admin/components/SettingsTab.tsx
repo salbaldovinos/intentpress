@@ -46,6 +46,7 @@ const SettingsTab: React.FC = () => {
 	const [perPage, setPerPage] = useState<number>(10);
 	const [similarityThreshold, setSimilarityThreshold] = useState<number>(0.5);
 	const [fallbackEnabled, setFallbackEnabled] = useState<boolean>(true);
+	const [replaceSearch, setReplaceSearch] = useState<boolean>(true);
 	const [cacheTtl, setCacheTtl] = useState<number>(3600);
 	const [maxResults, setMaxResults] = useState<number>(100);
 	const [apiKeyValidation, setApiKeyValidation] = useState<{
@@ -62,6 +63,7 @@ const SettingsTab: React.FC = () => {
 			setPerPage(settings.per_page || 10);
 			setSimilarityThreshold(settings.similarity_threshold || 0.5);
 			setFallbackEnabled(settings.fallback_enabled ?? true);
+			setReplaceSearch(settings.replace_search ?? true);
 			setCacheTtl(settings.cache_ttl || 3600);
 			setMaxResults(settings.max_results || 100);
 		}
@@ -121,6 +123,7 @@ const SettingsTab: React.FC = () => {
 			per_page: perPage,
 			similarity_threshold: similarityThreshold,
 			fallback_enabled: fallbackEnabled,
+			replace_search: replaceSearch,
 			cache_ttl: cacheTtl,
 			max_results: maxResults,
 		};
@@ -316,6 +319,16 @@ const SettingsTab: React.FC = () => {
 					/>
 
 					<CheckboxControl
+						label={__('Replace WordPress Search', 'intentpress')}
+						checked={replaceSearch}
+						onChange={setReplaceSearch}
+						help={__(
+							"Replace the default WordPress search with IntentPress semantic search. Uses your theme's search template.",
+							'intentpress'
+						)}
+					/>
+
+					<CheckboxControl
 						label={__(
 							'Enable WordPress Search Fallback',
 							'intentpress'
@@ -327,6 +340,44 @@ const SettingsTab: React.FC = () => {
 							'intentpress'
 						)}
 					/>
+				</CardBody>
+			</Card>
+
+			{/* Shortcodes Card */}
+			<Card className="intentpress-card">
+				<CardHeader>
+					<h2>{__('Shortcodes & Integration', 'intentpress')}</h2>
+				</CardHeader>
+				<CardBody>
+					<p>
+						{__(
+							'Use these shortcodes to add semantic search to any page or widget:',
+							'intentpress'
+						)}
+					</p>
+					<div className="intentpress-shortcodes">
+						<div className="intentpress-shortcode">
+							<code>[intentpress_search]</code>
+							<span>
+								{__('Displays a search form', 'intentpress')}
+							</span>
+						</div>
+						<div className="intentpress-shortcode">
+							<code>[intentpress_results]</code>
+							<span>
+								{__(
+									'Displays search results with relevance scores',
+									'intentpress'
+								)}
+							</span>
+						</div>
+					</div>
+					<p className="intentpress-shortcode-note">
+						{__(
+							'A search widget is also available under Appearance → Widgets.',
+							'intentpress'
+						)}
+					</p>
 				</CardBody>
 			</Card>
 

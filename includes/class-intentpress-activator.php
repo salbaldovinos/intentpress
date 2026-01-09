@@ -128,6 +128,7 @@ class IntentPress_Activator {
 			'intentpress_monthly_searches'    => 0,
 			'intentpress_search_counter_reset' => '',
 			'intentpress_fallback_enabled'    => true,
+			'intentpress_replace_search'      => true,
 			'intentpress_cache_ttl'           => 3600,
 			'intentpress_max_results'         => 100,
 			'intentpress_onboarding_complete' => false,
