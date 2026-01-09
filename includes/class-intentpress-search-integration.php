@@ -234,9 +234,15 @@ class IntentPress_Search_Integration {
 			$form_class .= ' ' . $custom_class;
 		}
 
+		// Get current query - try WordPress function first, then fall back to $_GET['s'].
 		$current_query = get_search_query();
-		$show_button   = filter_var( $atts['show_button'], FILTER_VALIDATE_BOOLEAN );
-		$autofocus     = filter_var( $atts['autofocus'], FILTER_VALIDATE_BOOLEAN );
+
+		if ( empty( $current_query ) && isset( $_GET['s'] ) ) {
+			$current_query = sanitize_text_field( wp_unslash( $_GET['s'] ) );
+		}
+
+		$show_button = filter_var( $atts['show_button'], FILTER_VALIDATE_BOOLEAN );
+		$autofocus   = filter_var( $atts['autofocus'], FILTER_VALIDATE_BOOLEAN );
 
 		ob_start();
 		?>
@@ -286,7 +292,12 @@ class IntentPress_Search_Integration {
 			'intentpress_results'
 		);
 
+		// Get search query - try WordPress function first, then fall back to $_GET['s'].
 		$search_query = get_search_query();
+
+		if ( empty( $search_query ) && isset( $_GET['s'] ) ) {
+			$search_query = sanitize_text_field( wp_unslash( $_GET['s'] ) );
+		}
 
 		if ( empty( $search_query ) ) {
 			return '';
