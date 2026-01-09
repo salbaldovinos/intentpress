@@ -355,29 +355,227 @@ const SettingsTab: React.FC = () => {
 							'intentpress'
 						)}
 					</p>
-					<div className="intentpress-shortcodes">
-						<div className="intentpress-shortcode">
-							<code>[intentpress_search]</code>
-							<span>
-								{__('Displays a search form', 'intentpress')}
-							</span>
-						</div>
-						<div className="intentpress-shortcode">
-							<code>[intentpress_results]</code>
-							<span>
-								{__(
-									'Displays search results with relevance scores',
-									'intentpress'
-								)}
-							</span>
-						</div>
+
+					{/* Search Form Shortcode */}
+					<div className="intentpress-shortcode-section">
+						<h3>{__('Search Form', 'intentpress')}</h3>
+						<code className="intentpress-shortcode-example">
+							[intentpress_search]
+						</code>
+						<p className="intentpress-shortcode-desc">
+							{__(
+								'Displays a search input form. Place this where you want users to enter their search.',
+								'intentpress'
+							)}
+						</p>
+						<table className="intentpress-shortcode-params">
+							<thead>
+								<tr>
+									<th>{__('Parameter', 'intentpress')}</th>
+									<th>{__('Default', 'intentpress')}</th>
+									<th>{__('Description', 'intentpress')}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<code>placeholder</code>
+									</td>
+									<td>{'"Search..."'}</td>
+									<td>
+										{__(
+											'Input placeholder text',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>button_text</code>
+									</td>
+									<td>{'"Search"'}</td>
+									<td>
+										{__(
+											'Submit button text',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>show_button</code>
+									</td>
+									<td>{'"true"'}</td>
+									<td>
+										{__(
+											'Show/hide the submit button',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>autofocus</code>
+									</td>
+									<td>{'"false"'}</td>
+									<td>
+										{__(
+											'Auto-focus the input on page load',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>class</code>
+									</td>
+									<td>{'""'}</td>
+									<td>
+										{__(
+											'Additional CSS class for styling',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p className="intentpress-shortcode-example-label">
+							{__('Example:', 'intentpress')}
+						</p>
+						<code className="intentpress-shortcode-example intentpress-shortcode-example--full">
+							{
+								'[intentpress_search placeholder="What are you looking for?" button_text="Find" autofocus="true"]'
+							}
+						</code>
 					</div>
-					<p className="intentpress-shortcode-note">
-						{__(
-							'A search widget is also available under Appearance → Widgets.',
-							'intentpress'
-						)}
-					</p>
+
+					{/* Search Results Shortcode */}
+					<div className="intentpress-shortcode-section">
+						<h3>{__('Search Results', 'intentpress')}</h3>
+						<code className="intentpress-shortcode-example">
+							[intentpress_results]
+						</code>
+						<p className="intentpress-shortcode-desc">
+							{__(
+								'Displays search results with titles, excerpts, and relevance scores. Place this below the search form.',
+								'intentpress'
+							)}
+						</p>
+						<table className="intentpress-shortcode-params">
+							<thead>
+								<tr>
+									<th>{__('Parameter', 'intentpress')}</th>
+									<th>{__('Default', 'intentpress')}</th>
+									<th>{__('Description', 'intentpress')}</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>
+										<code>per_page</code>
+									</td>
+									<td>10</td>
+									<td>
+										{__(
+											'Number of results per page',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>show_excerpt</code>
+									</td>
+									<td>{'"true"'}</td>
+									<td>
+										{__(
+											'Show post excerpts',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>show_relevance</code>
+									</td>
+									<td>{'"false"'}</td>
+									<td>
+										{__(
+											'Show relevance percentage',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>show_meta</code>
+									</td>
+									<td>{'"true"'}</td>
+									<td>
+										{__(
+											'Show result count and search type badge',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>excerpt_length</code>
+									</td>
+									<td>55</td>
+									<td>
+										{__(
+											'Excerpt word length',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>no_results</code>
+									</td>
+									<td>{'"No results found."'}</td>
+									<td>
+										{__(
+											'Message when no results found',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
+										<code>class</code>
+									</td>
+									<td>{'""'}</td>
+									<td>
+										{__(
+											'Additional CSS class for styling',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+							</tbody>
+						</table>
+						<p className="intentpress-shortcode-example-label">
+							{__('Example:', 'intentpress')}
+						</p>
+						<code className="intentpress-shortcode-example intentpress-shortcode-example--full">
+							{
+								'[intentpress_results per_page="5" show_relevance="true" no_results="Sorry, nothing matched your search."]'
+							}
+						</code>
+					</div>
+
+					{/* Widget Note */}
+					<div className="intentpress-shortcode-section intentpress-shortcode-section--note">
+						<h3>{__('Widget', 'intentpress')}</h3>
+						<p>
+							{__(
+								'A search widget is also available under Appearance → Widgets. Add the "IntentPress Search" widget to any widget area.',
+								'intentpress'
+							)}
+						</p>
+					</div>
 				</CardBody>
 			</Card>
 

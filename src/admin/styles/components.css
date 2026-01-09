@@ -435,3 +435,119 @@
 	color: #666;
 	font-style: italic;
 }
+
+/* Shortcode documentation sections */
+.intentpress-shortcode-section {
+	margin-bottom: 32px;
+	padding-bottom: 24px;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.intentpress-shortcode-section:last-child {
+	margin-bottom: 0;
+	padding-bottom: 0;
+	border-bottom: none;
+}
+
+.intentpress-shortcode-section h3 {
+	margin: 0 0 12px;
+	font-size: 15px;
+	font-weight: 600;
+	color: #1e1e1e;
+}
+
+.intentpress-shortcode-section--note {
+	background: #f0f7fc;
+	padding: 16px;
+	border-radius: 4px;
+	border-bottom: none;
+}
+
+.intentpress-shortcode-section--note h3 {
+	color: #007cba;
+}
+
+.intentpress-shortcode-section--note p {
+	margin: 0;
+	font-size: 14px;
+	color: #1e1e1e;
+}
+
+.intentpress-shortcode-example {
+	display: inline-block;
+	padding: 8px 12px;
+	background: #1e1e1e;
+	color: #50c878;
+	border-radius: 4px;
+	font-size: 13px;
+	font-family: "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	margin-bottom: 12px;
+}
+
+.intentpress-shortcode-example--full {
+	display: block;
+	white-space: pre-wrap;
+	word-break: break-all;
+	color: #ffa500;
+}
+
+.intentpress-shortcode-desc {
+	margin: 0 0 16px;
+	font-size: 14px;
+	color: #666;
+	line-height: 1.5;
+}
+
+.intentpress-shortcode-example-label {
+	margin: 16px 0 8px;
+	font-size: 13px;
+	font-weight: 500;
+	color: #666;
+}
+
+/* Shortcode parameter table */
+.intentpress-shortcode-params {
+	width: 100%;
+	border-collapse: collapse;
+	font-size: 13px;
+	margin-bottom: 8px;
+}
+
+.intentpress-shortcode-params th,
+.intentpress-shortcode-params td {
+	padding: 10px 12px;
+	text-align: left;
+	border-bottom: 1px solid #e0e0e0;
+}
+
+.intentpress-shortcode-params th {
+	background: #f9f9f9;
+	font-weight: 600;
+	color: #1e1e1e;
+	font-size: 12px;
+	text-transform: uppercase;
+	letter-spacing: 0.3px;
+}
+
+.intentpress-shortcode-params td:first-child {
+	width: 120px;
+}
+
+.intentpress-shortcode-params td:nth-child(2) {
+	width: 140px;
+	color: #666;
+	font-family: "SF Mono", Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+	font-size: 12px;
+}
+
+.intentpress-shortcode-params td:last-child {
+	color: #666;
+}
+
+.intentpress-shortcode-params code {
+	padding: 2px 6px;
+	background: #f0f0f0;
+	border-radius: 3px;
+	font-size: 12px;
+	color: #d63638;
+}
