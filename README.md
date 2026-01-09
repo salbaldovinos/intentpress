@@ -107,28 +107,29 @@ npm run package
 ### Search Form
 
 ```
-[intentpress_search placeholder="Search..." button_text="Search" class="" show_button="true" autofocus="false"]
+[intentpress_search placeholder="Search..." button_text="Search" action="self"]
 ```
 
 | Attribute | Description | Default |
 |-----------|-------------|---------|
 | `placeholder` | Input placeholder text | "Search..." |
 | `button_text` | Submit button text | "Search" |
-| `class` | Additional CSS class | "" |
+| `action` | Form target: "self" (stay on page), "search" (WP search), or URL | "self" |
 | `show_button` | Show/hide submit button | "true" |
 | `autofocus` | Auto-focus the input | "false" |
+| `class` | Additional CSS class | "" |
 
 ### Search Results
 
 ```
-[intentpress_results per_page="10" show_excerpt="true" show_relevance="false" show_meta="true"]
+[intentpress_results per_page="10" show_excerpt="true" show_relevance="true" show_meta="true"]
 ```
 
 | Attribute | Description | Default |
 |-----------|-------------|---------|
 | `per_page` | Results per page | 10 |
 | `show_excerpt` | Show post excerpts | "true" |
-| `show_relevance` | Show relevance percentage | "false" |
+| `show_relevance` | Show relevance percentage | "true" |
 | `show_meta` | Show result count and badge | "true" |
 | `excerpt_length` | Excerpt word length | 55 |
 | `no_results` | No results message | "No results found." |

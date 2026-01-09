@@ -209,7 +209,7 @@ class IntentPress_Search_Integration {
 	/**
 	 * Search form shortcode.
 	 *
-	 * Usage: [intentpress_search placeholder="Search..." button_text="Search"]
+	 * Usage: [intentpress_search placeholder="Search..." button_text="Search" action="self"]
 	 *
 	 * @param array $atts Shortcode attributes.
 	 * @return string
@@ -222,6 +222,7 @@ class IntentPress_Search_Integration {
 				'class'        => '',
 				'show_button'  => 'true',
 				'autofocus'    => 'false',
+				'action'       => 'self',
 			),
 			$atts,
 			'intentpress_search'
@@ -244,9 +245,24 @@ class IntentPress_Search_Integration {
 		$show_button = filter_var( $atts['show_button'], FILTER_VALIDATE_BOOLEAN );
 		$autofocus   = filter_var( $atts['autofocus'], FILTER_VALIDATE_BOOLEAN );
 
+		// Determine form action URL.
+		if ( 'self' === $atts['action'] ) {
+			// Stay on current page - use current URL without query string.
+			$form_action = strtok( esc_url( add_query_arg( array() ) ), '?' );
+			if ( empty( $form_action ) ) {
+				$form_action = get_permalink();
+			}
+		} elseif ( 'search' === $atts['action'] ) {
+			// Go to WordPress search page.
+			$form_action = home_url( '/' );
+		} else {
+			// Custom URL provided.
+			$form_action = esc_url( $atts['action'] );
+		}
+
 		ob_start();
 		?>
-		<form role="search" method="get" class="<?php echo esc_attr( $form_class ); ?>" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+		<form role="search" method="get" class="<?php echo esc_attr( $form_class ); ?>" action="<?php echo esc_url( $form_action ); ?>">
 			<label class="intentpress-search-label screen-reader-text" for="intentpress-search-input">
 				<?php esc_html_e( 'Search for:', 'intentpress' ); ?>
 			</label>
@@ -282,7 +298,7 @@ class IntentPress_Search_Integration {
 			array(
 				'per_page'       => 10,
 				'show_excerpt'   => 'true',
-				'show_relevance' => 'false',
+				'show_relevance' => 'true',
 				'show_meta'      => 'true',
 				'excerpt_length' => 55,
 				'class'          => '',

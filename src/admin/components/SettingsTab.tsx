@@ -403,6 +403,18 @@ const SettingsTab: React.FC = () => {
 								</tr>
 								<tr>
 									<td>
+										<code>action</code>
+									</td>
+									<td>{'"self"'}</td>
+									<td>
+										{__(
+											'Form target: "self" (stay on page), "search" (WP search), or custom URL',
+											'intentpress'
+										)}
+									</td>
+								</tr>
+								<tr>
+									<td>
 										<code>show_button</code>
 									</td>
 									<td>{'"true"'}</td>
@@ -498,7 +510,7 @@ const SettingsTab: React.FC = () => {
 									<td>
 										<code>show_relevance</code>
 									</td>
-									<td>{'"false"'}</td>
+									<td>{'"true"'}</td>
 									<td>
 										{__(
 											'Show relevance percentage',
