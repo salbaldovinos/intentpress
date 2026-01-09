@@ -29,9 +29,22 @@ This document provides AI coding agents with everything needed to understand, op
 
 IntentPress is a WordPress plugin that replaces the default keyword-based search with AI-powered semantic search using vector embeddings. It consists of:
 
-- **PHP Backend**: Handles WordPress integration, REST API, database operations
+- **PHP Backend**: Handles WordPress integration, REST API, database operations, shortcodes
 - **React Frontend**: Powers the admin settings dashboard
 - **External API**: Communicates with OpenAI for embedding generation
+- **Search Integration**: Hooks into WordPress search system, provides shortcodes and widgets
+
+### Key PHP Classes
+
+| Class | Purpose |
+|-------|---------|
+| `IntentPress_Search_Handler` | Orchestrates search flow, manages fallback |
+| `IntentPress_Search_Integration` | WordPress search hooks, shortcodes, widget, template tags |
+| `IntentPress_Embedding_Service` | Generates embeddings via OpenAI |
+| `IntentPress_Vector_Store` | Stores and queries embeddings |
+| `IntentPress_REST_API` | Registers and handles REST endpoints |
+| `IntentPress_Admin` | Admin dashboard and settings UI |
+| `IntentPress_Activator` | Plugin activation/deactivation hooks |
 
 ### Key Architecture Decisions
 
@@ -51,13 +64,13 @@ Read these files in order for full context:
 1. `CLAUDE.md` - Quick reference (always read first)
 2. `docs/00-PRD-Overview.md` - Product vision, goals, personas
 3. `docs/01-PRD-User-Stories.md` - Detailed user stories with acceptance criteria
-4. `docs/02-PRD-Onboarding.md` - Onboarding Flow
-4. `docs/00-FRD-Core-Search.md` - Technical search specifications
-5. `docs/01-FRD-Admin-Settings.md` - Admin UI specifications
-6. `docs/02-FRD-Indexing.md` - Indexing system specifications
-7. `docs/03-FRD-Onboarding.md` - User onboarding specificiation
-8. `docs/03-PRD-Error-Handling.md` - Error handling specifications
-9. `docs/04-FRD-Error-Handling.md` - Error handling technical specifications
+4. `docs/02-PRD-Onboarding.md` - Onboarding flow
+5. `docs/03-PRD-Error-Handling.md` - Error handling specifications
+6. `docs/00-FRD-Core-Search.md` - Technical search specifications
+7. `docs/01-FRD-Admin-Settings.md` - Admin UI specifications
+8. `docs/02-FRD-Indexing.md` - Indexing system specifications
+9. `docs/03-FRD-Onboarding.md` - User onboarding specification
+10. `docs/04-FRD-Error-Handling.md` - Error handling technical specifications
 
 ---
 
@@ -845,6 +858,51 @@ const useSaveSettings = () => {
         },
     } );
 };
+```
+
+### Shortcode Registration
+
+```php
+// Register shortcode
+add_shortcode( 'intentpress_search', array( $this, 'search_form_shortcode' ) );
+
+// Shortcode handler with attributes
+public function search_form_shortcode( array $atts = array() ): string {
+    $atts = shortcode_atts(
+        array(
+            'placeholder' => __( 'Search...', 'intentpress' ),
+            'button_text' => __( 'Search', 'intentpress' ),
+            'class'       => '',
+        ),
+        $atts,
+        'intentpress_search'
+    );
+
+    ob_start();
+    ?>
+    <form class="intentpress-search-form <?php echo esc_attr( $atts['class'] ); ?>">
+        <input type="search" placeholder="<?php echo esc_attr( $atts['placeholder'] ); ?>" />
+        <button type="submit"><?php echo esc_html( $atts['button_text'] ); ?></button>
+    </form>
+    <?php
+    return ob_get_clean();
+}
+```
+
+### Template Tags
+
+```php
+// Define template tag function (global scope)
+function intentpress_is_semantic_search(): bool {
+    global $intentpress_search_integration;
+    return $intentpress_search_integration instanceof IntentPress_Search_Integration
+        && $intentpress_search_integration->is_semantic_search();
+}
+
+// Usage in theme template
+if ( intentpress_is_semantic_search() ) {
+    echo '<span class="badge">AI-Powered</span>';
+}
 ```
 
 ---

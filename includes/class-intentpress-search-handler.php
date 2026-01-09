@@ -336,10 +336,19 @@ class IntentPress_Search_Handler {
 		}
 
 		// Perform semantic search.
+		$post_types = $query->get( 'post_type' );
+
+		// Ensure post_types is always an array.
+		if ( empty( $post_types ) || 'any' === $post_types ) {
+			$post_types = get_option( 'intentpress_indexed_post_types', array( 'post', 'page' ) );
+		} elseif ( ! is_array( $post_types ) ) {
+			$post_types = array( $post_types );
+		}
+
 		$args = array(
 			'per_page'   => $query->get( 'posts_per_page' ) ?: 10,
 			'page'       => max( 1, $query->get( 'paged' ) ?: 1 ),
-			'post_types' => $query->get( 'post_type' ) ?: get_option( 'intentpress_indexed_post_types', array( 'post', 'page' ) ),
+			'post_types' => $post_types,
 		);
 
 		$result = $this->search( $search_query, $args );

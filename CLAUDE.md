@@ -25,19 +25,21 @@ intentpress/
 ├── intentpress.php           # Main plugin file
 ├── includes/                 # PHP classes
 │   ├── class-intentpress-activator.php
-│   ├── class-intentpress-search-handler.php
+│   ├── class-intentpress-admin.php
 │   ├── class-intentpress-embedding-service.php
-│   ├── class-intentpress-vector-store.php
-│   └── class-intentpress-rest-api.php
+│   ├── class-intentpress-rest-api.php
+│   ├── class-intentpress-search-handler.php
+│   ├── class-intentpress-search-integration.php
+│   └── class-intentpress-vector-store.php
 ├── src/                      # React source (TypeScript)
 │   ├── admin/
 │   │   ├── App.tsx
 │   │   ├── components/
-│   │   └── hooks/
+│   │   ├── hooks/
+│   │   └── styles/
 │   └── index.tsx
 ├── build/                    # Compiled assets (git-ignored)
 ├── tests/
-│   ├── phpunit/
 │   └── jest/
 └── docs/                     # Additional documentation
 ```
@@ -128,10 +130,12 @@ $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}intentpress_embeddings WHERE post_
 ## Key PHP Classes
 
 - `IntentPress_Search_Handler` - Orchestrates search flow, manages fallback
+- `IntentPress_Search_Integration` - WordPress search hooks, shortcodes, widget, template tags
 - `IntentPress_Embedding_Service` - Generates embeddings via OpenAI
 - `IntentPress_Vector_Store` - Stores and queries embeddings
-- `IntentPress_Cache` - Manages query and result caching
+- `IntentPress_Admin` - Admin dashboard and settings UI
 - `IntentPress_REST_API` - Registers and handles REST endpoints
+- `IntentPress_Activator` - Plugin activation/deactivation hooks
 
 ## Key React Components
 
@@ -139,7 +143,7 @@ $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}intentpress_embeddings WHERE post_
 - `DashboardTab.tsx` - Status overview, health checks
 - `SettingsTab.tsx` - API key, post types, behavior config
 - `IndexingTab.tsx` - Index management, progress UI
-- `AnalyticsTab.tsx` - Search statistics, top queries
+- `OnboardingWizard.tsx` - Initial setup wizard
 
 ## Database Schema
 
@@ -194,12 +198,15 @@ $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}intentpress_embeddings WHERE post_
 ## Context Files
 
 Read these for detailed specifications:
-- `docs/PRD-Overview.md` - Product requirements
-- `docs/PRD-User-Stories.md` - User stories with acceptance criteria
+- `docs/00-PRD-Overview.md` - Product requirements
+- `docs/01-PRD-User-Stories.md` - User stories with acceptance criteria
+- `docs/02-PRD-Onboarding.md` - Onboarding flow
+- `docs/03-PRD-Error-Handling.md` - Error handling specs
 - `docs/00-FRD-Core-Search.md` - Search functionality specs
-- `docs/00-FRD-Admin-Settings.md` - Admin UI specs
-- `docs/00-FRD-Indexing.md` - Indexing system specs
-- `docs/PRD-Error-Handling.md` - Error handling specs
+- `docs/01-FRD-Admin-Settings.md` - Admin UI specs
+- `docs/02-FRD-Indexing.md` - Indexing system specs
+- `docs/03-FRD-Onboarding.md` - Onboarding specification
+- `docs/04-FRD-Error-Handling.md` - Error handling technical specs
 
 ## Code Style Enforcement
 

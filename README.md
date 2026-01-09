@@ -5,19 +5,21 @@
 [![WordPress Version](https://img.shields.io/badge/WordPress-6.4%2B-blue.svg)](https://wordpress.org/)
 [![PHP Version](https://img.shields.io/badge/PHP-8.0%2B-purple.svg)](https://php.net/)
 [![License](https://img.shields.io/badge/license-GPL--2.0--or--later-green.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
-[![Version](https://img.shields.io/badge/version-0.1.2-orange.svg)](https://github.com/salbaldovinos/intentpress/releases)
+[![Version](https://img.shields.io/badge/version-0.2.0-orange.svg)](https://github.com/salbaldovinos/intentpress/releases)
 
 IntentPress replaces WordPress's keyword-based search with intent-aware semantic search, delivering more relevant results with minimal configuration. Using AI-powered vector embeddings, IntentPress understands what users mean—not just what they type.
 
 ## Features
 
 - **Semantic Search**: Find content by meaning, not just keywords
+- **WordPress Search Replacement**: Automatically replaces default WordPress search
+- **Shortcodes & Widget**: Embed search forms and results anywhere
 - **Guided Setup**: Onboarding wizard walks you through configuration
 - **Graceful Fallback**: Automatically falls back to WordPress search when needed
 - **Modern Admin UI**: React-powered dashboard with real-time status
 - **Search Analytics**: Track search performance and popular queries
 - **Encrypted Storage**: API keys are encrypted with AES-256-CBC
-- **Developer Friendly**: REST API for custom integrations
+- **Developer Friendly**: REST API, shortcodes, and template tags for custom integrations
 
 ## Requirements
 
@@ -30,7 +32,7 @@ IntentPress replaces WordPress's keyword-based search with intent-aware semantic
 
 ### From ZIP File
 
-1. Download `intentpress-0.1.2.zip` from the [dist folder](https://github.com/salbaldovinos/intentpress) or build it yourself
+1. Download `intentpress-0.2.0.zip` from the [dist folder](https://github.com/salbaldovinos/intentpress) or build it yourself
 2. Go to **Plugins → Add New → Upload Plugin**
 3. Upload the ZIP file and click **Install Now**
 4. Activate the plugin
@@ -99,6 +101,71 @@ npm run package
 - **1,000 searches** per month
 - Automatic fallback to WordPress search when limits reached
 - Counter resets on the 1st of each month
+
+## Shortcodes
+
+### Search Form
+
+```
+[intentpress_search placeholder="Search..." button_text="Search" class="" show_button="true" autofocus="false"]
+```
+
+| Attribute | Description | Default |
+|-----------|-------------|---------|
+| `placeholder` | Input placeholder text | "Search..." |
+| `button_text` | Submit button text | "Search" |
+| `class` | Additional CSS class | "" |
+| `show_button` | Show/hide submit button | "true" |
+| `autofocus` | Auto-focus the input | "false" |
+
+### Search Results
+
+```
+[intentpress_results per_page="10" show_excerpt="true" show_relevance="false" show_meta="true"]
+```
+
+| Attribute | Description | Default |
+|-----------|-------------|---------|
+| `per_page` | Results per page | 10 |
+| `show_excerpt` | Show post excerpts | "true" |
+| `show_relevance` | Show relevance percentage | "false" |
+| `show_meta` | Show result count and badge | "true" |
+| `excerpt_length` | Excerpt word length | 55 |
+| `no_results` | No results message | "No results found." |
+| `class` | Additional CSS class | "" |
+
+## Widget
+
+IntentPress provides a search widget that can be added to any widget area:
+
+1. Go to **Appearance → Widgets**
+2. Add the **IntentPress Search** widget to your desired area
+3. Configure title, placeholder, and button text
+
+## Template Tags
+
+Use these functions in your theme templates:
+
+```php
+// Check if current search uses semantic search
+if ( intentpress_is_semantic_search() ) {
+    echo 'Powered by AI';
+}
+
+// Get relevance score for a post (0-1)
+$relevance = intentpress_get_relevance( $post );
+
+// Display relevance as percentage
+intentpress_the_relevance( $post ); // Outputs: <span class="intentpress-relevance">85%</span>
+```
+
+### Body Classes
+
+On search pages, IntentPress adds these body classes:
+
+- `intentpress-search` - Always added on IntentPress searches
+- `intentpress-search-semantic` - When semantic search was used
+- `intentpress-fallback` - When fallback to WordPress search occurred
 
 ## How It Works
 
@@ -182,6 +249,7 @@ intentpress/
 │   ├── class-intentpress-embedding-service.php
 │   ├── class-intentpress-rest-api.php
 │   ├── class-intentpress-search-handler.php
+│   ├── class-intentpress-search-integration.php
 │   └── class-intentpress-vector-store.php
 ├── src/                               # React/TypeScript source
 │   ├── index.tsx

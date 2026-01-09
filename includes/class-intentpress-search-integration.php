@@ -119,11 +119,11 @@ class IntentPress_Search_Integration {
 		}
 
 		// Store results for later use.
-		$this->search_results = $results['results'];
+		$this->search_results = $results['data']['results'];
 		$this->search_meta    = $results['meta'];
 
 		// Get post IDs from results.
-		$post_ids = wp_list_pluck( $results['results'], 'id' );
+		$post_ids = wp_list_pluck( $results['data']['results'], 'id' );
 
 		if ( empty( $post_ids ) ) {
 			// No results - set to return nothing.
@@ -140,7 +140,7 @@ class IntentPress_Search_Integration {
 		$query->set( 'posts_per_page', $per_page );
 
 		// Store total for pagination.
-		$query->set( 'intentpress_total', $results['total'] );
+		$query->set( 'intentpress_total', $results['data']['total'] );
 		$query->set( 'intentpress_query', $search_query );
 	}
 
@@ -327,8 +327,8 @@ class IntentPress_Search_Integration {
 						<?php
 						printf(
 							/* translators: 1: number of results, 2: search query */
-							esc_html( _n( '%1$d result for "%2$s"', '%1$d results for "%2$s"', $results['total'], 'intentpress' ) ),
-							absint( $results['total'] ),
+							esc_html( _n( '%1$d result for "%2$s"', '%1$d results for "%2$s"', $results['data']['total'], 'intentpress' ) ),
+							absint( $results['data']['total'] ),
 							esc_html( $search_query )
 						);
 						?>
@@ -341,11 +341,11 @@ class IntentPress_Search_Integration {
 				</div>
 			<?php endif; ?>
 
-			<?php if ( empty( $results['results'] ) ) : ?>
+			<?php if ( empty( $results['data']['results'] ) ) : ?>
 				<p class="intentpress-no-results"><?php echo esc_html( $atts['no_results'] ); ?></p>
 			<?php else : ?>
 				<ul class="intentpress-results-list">
-					<?php foreach ( $results['results'] as $result ) : ?>
+					<?php foreach ( $results['data']['results'] as $result ) : ?>
 						<li class="intentpress-result-item">
 							<article class="intentpress-result">
 								<h3 class="intentpress-result-title">
@@ -382,7 +382,7 @@ class IntentPress_Search_Integration {
 					<?php endforeach; ?>
 				</ul>
 
-				<?php $this->render_pagination( $results['total'], $per_page, $paged ); ?>
+				<?php $this->render_pagination( $results['data']['total'], $per_page, $paged ); ?>
 			<?php endif; ?>
 		</div>
 		<?php
