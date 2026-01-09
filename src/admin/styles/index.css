@@ -1,0 +1,9 @@
+/**
+ * IntentPress Admin Styles Index
+ *
+ * @package IntentPress
+ */
+
+@import "./app.css";
+@import "./components.css";
+@import "./onboarding.css";

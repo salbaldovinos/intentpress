@@ -1,0 +1,47 @@
+# Dependencies
+node_modules/
+vendor/
+
+# Build output
+build/
+dist/
+
+# WordPress environment
+uploads/
+.wp-env.override.json
+
+# IDE and editor files
+.idea/
+.vscode/
+*.sublime-*
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs and caches
+*.log
+.phpunit.result.cache
+.stylelintcache
+.eslintcache
+coverage/
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Package lock files (optional - uncomment to include)
+# package-lock.json
+# composer.lock
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+
+# PHPStan
+phpstan.neon

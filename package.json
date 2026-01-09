@@ -1,0 +1,51 @@
+{
+	"name": "intentpress",
+	"version": "0.1.2",
+	"description": "AI-powered semantic search plugin for WordPress",
+	"author": "IntentPress",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"scripts": {
+		"start": "wp-scripts start",
+		"build": "wp-scripts build",
+		"build:dev": "wp-scripts build --mode=development",
+		"lint:js": "wp-scripts lint-js src",
+		"lint:js:fix": "wp-scripts lint-js src --fix",
+		"lint:css": "wp-scripts lint-style src",
+		"lint:css:fix": "wp-scripts lint-style src --fix",
+		"test:unit": "wp-scripts test-unit-js",
+		"test:unit:watch": "wp-scripts test-unit-js --watch",
+		"test:e2e": "wp-scripts test-playwright",
+		"format": "wp-scripts format src",
+		"packages-update": "wp-scripts packages-update",
+		"package": "npm run build && bash scripts/package.sh",
+		"version:bump": "bash scripts/bump-version.sh",
+		"release": "bash scripts/bump-version.sh patch && npm run package"
+	},
+	"devDependencies": {
+		"@testing-library/jest-dom": "^6.4.0",
+		"@testing-library/react": "^14.2.0",
+		"@types/react": "^18.2.0",
+		"@types/react-dom": "^18.2.0",
+		"@types/wordpress__components": "^23.0.0",
+		"@wordpress/e2e-test-utils-playwright": "^0.16.0",
+		"@wordpress/eslint-plugin": "^17.0.0",
+		"@wordpress/scripts": "^27.0.0",
+		"@wordpress/stylelint-config": "^21.0.0",
+		"typescript": "^5.3.0"
+	},
+	"dependencies": {
+		"@tanstack/react-query": "^5.17.0",
+		"@wordpress/api-fetch": "^6.44.0",
+		"@wordpress/components": "^27.0.0",
+		"@wordpress/data": "^9.17.0",
+		"@wordpress/element": "^5.24.0",
+		"@wordpress/hooks": "^3.47.0",
+		"@wordpress/i18n": "^4.47.0",
+		"@wordpress/notices": "^4.15.0"
+	},
+	"engines": {
+		"node": ">=18.0.0",
+		"npm": ">=9.0.0"
+	}
+}
